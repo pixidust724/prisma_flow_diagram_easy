@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRISMA 2026 Flow Diagram</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 22px;
+            font-weight: normal;
+        }
+        h3 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        .main-content {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        /* Form Panel */
+        .form-panel {
+            flex: 0 0 320px;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 20px;
+            font-size: 13px;
+        }
+        .form-section {
+            margin-bottom: 18px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .form-section h3 {
+            font-size: 12px;
+            color: #4a7ba7;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .form-group {
+            margin-bottom: 8px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #ccc;
+            font-size: 12px;
+            font-family: inherit;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #4a7ba7;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .export-btn {
+            width: 100%;
+            padding: 10px;
+            background: #4a7ba7;
+            color: white;
+            border: none;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .export-btn:hover {
+            background: #3d6a91;
+        }
+
+        /* Diagram Panel */
+        .diagram-panel {
+            flex: 1;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 30px;
+            min-width: 600px;
+        }
+
+        .prisma-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        @media print {
+            body { background: white; padding: 10px; }
+            .form-panel { display: none; }
+            h1, h3 { display: none; }
+            .diagram-panel { border: none; padding: 0; }
+            .main-content { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PRISMA 2026 Flow Diagram</h1>
+        <h3>Vibe coded with claude-opus-4-6 💖</h3>
+
+        <div class="main-content">
+            <!-- Input Form -->
+            <div class="form-panel">
+                <div class="form-section">
+                    <h3>Identification</h3>
+                    <div class="form-group">
+                        <label>Database sources (one per line: Name (n = X))</label>
+                        <textarea id="input-databases" oninput="updateDiagram()">Google Scholar (n = 170)</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Records removed reason</label>
+                        <input type="text" id="input-removed-reason" value="Records removed due to duplication" oninput="updateDiagram()">
+                    </div>
+                    <div class="form-group">
+                        <label>Records removed (n)</label>
+                        <input type="number" id="input-removed" value="16" oninput="updateDiagram()">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Screening</h3>
+                    <div class="form-group">
+                        <label>Records screened (n)</label>
+                        <input type="number" id="input-screened" value="2018" oninput="updateDiagram()">
+                    </div>
+                    <div class="form-group">
+                        <label>Exclusion reason</label>
+                        <input type="text" id="input-excluded-reason" value="Records excluded on title and keywords" oninput="updateDiagram()">
+                    </div>
+                    <div class="form-group">
+                        <label>Records excluded (n)</label>
+                        <input type="number" id="input-excluded" value="1974" oninput="updateDiagram()">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Retrieval</h3>
+                    <div class="form-group">
+                        <label>Reports sought for retrieval (n)</label>
+                        <input type="number" id="input-sought" value="44" oninput="updateDiagram()">
+                    </div>
+                    <div class="form-group">
+                        <label>Exclusion reason</label>
+                        <input type="text" id="input-retrieval-reason" value="Records excluded on abstract, full-text, topic, and language" oninput="updateDiagram()">
+                    </div>
+                    <div class="form-group">
+                        <label>Records excluded (n)</label>
+                        <input type="number" id="input-retrieval-excluded" value="30" oninput="updateDiagram()">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Eligibility</h3>
+                    <div class="form-group">
+                        <label>Reports assessed for eligibility (n)</label>
+                        <input type="number" id="input-assessed" value="14" oninput="updateDiagram()">
+                    </div>
+                    <div class="form-group">
+                        <label>Exclusion reasons (one per line)</label>
+                        <textarea id="input-not-retrieved-reasons" oninput="updateDiagram()">Population not children (n = 8)</textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Included</h3>
+                    <div class="form-group">
+                        <label>Studies included in review (n)</label>
+                        <input type="number" id="input-included" value="6" oninput="updateDiagram()">
+                    </div>
+                </div>
+
+                <button class="export-btn" onclick="window.print()">Export as PDF</button>
+            </div>
+
+            <!-- Diagram -->
+            <div class="diagram-panel">
+                <svg id="prisma-svg" class="prisma-svg" viewBox="0 0 700 750"></svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function wrapText(text, maxWidth, fontSize) {
+            const words = text.split(' ');
+            const lines = [];
+            let currentLine = '';
+
+            words.forEach(word => {
+                const testLine = currentLine ? currentLine + ' ' + word : word;
+                if (measureTextWidth(testLine, fontSize) > maxWidth && currentLine) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine = testLine;
+                }
+            });
+            if (currentLine) lines.push(currentLine);
+            return lines;
+        }
+
+        function measureTextWidth(text, fontSize) {
+            const svg = document.getElementById('prisma-svg');
+            const textEl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            textEl.setAttribute('font-family', 'Arial, sans-serif');
+            textEl.setAttribute('font-size', fontSize);
+            textEl.setAttribute('visibility', 'hidden');
+            textEl.textContent = text;
+            svg.appendChild(textEl);
+            const width = textEl.getComputedTextLength();
+            svg.removeChild(textEl);
+            return width;
+        }
+
+        function createBox(lines, fontSize = 12, padding = 15, minWidth = 0) {
+            const lineHeight = fontSize * 1.5;
+            let maxLineWidth = minWidth;
+            lines.forEach(line => {
+                const width = measureTextWidth(line, fontSize);
+                if (width > maxLineWidth) maxLineWidth = width;
+            });
+
+            const boxWidth = maxLineWidth + padding * 2;
+            const boxHeight = lines.length * lineHeight + padding * 2 - (lineHeight - fontSize);
+
+            return { width: boxWidth, height: boxHeight, lines, fontSize, lineHeight, padding };
+        }
+
+        function renderBox(svg, box, centerX, centerY) {
+            const x = centerX - box.width / 2;
+            const y = centerY - box.height / 2;
+
+            // Rectangle
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('width', box.width);
+            rect.setAttribute('height', box.height);
+            rect.setAttribute('fill', 'white');
+            rect.setAttribute('stroke', '#333');
+            rect.setAttribute('stroke-width', '1.5');
+            svg.appendChild(rect);
+
+            // Text - center aligned
+            const textStartY = y + box.padding + box.fontSize * 0.8;
+            box.lines.forEach((line, i) => {
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', centerX);
+                text.setAttribute('y', textStartY + i * box.lineHeight);
+                text.setAttribute('font-family', 'Arial, sans-serif');
+                text.setAttribute('font-size', box.fontSize);
+                text.setAttribute('fill', '#333');
+                text.setAttribute('text-anchor', 'middle');
+                text.textContent = line;
+                svg.appendChild(text);
+            });
+
+            return {
+                x, y,
+                width: box.width,
+                height: box.height,
+                centerX, centerY,
+                left: x,
+                right: x + box.width,
+                top: y,
+                bottom: y + box.height
+            };
+        }
+
+        function renderPhaseLabel(svg, x, y, height, label) {
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('width', 22);
+            rect.setAttribute('height', height);
+            rect.setAttribute('rx', 5);
+            rect.setAttribute('fill', 'rgb(188, 210, 238)');
+            svg.appendChild(rect);
+
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', x + 11);
+            text.setAttribute('y', y + height / 2);
+            text.setAttribute('font-family', 'Arial, sans-serif');
+            text.setAttribute('font-size', '13');
+            text.setAttribute('fill', 'black');
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('dominant-baseline', 'middle');
+            text.setAttribute('transform', `rotate(-90, ${x + 11}, ${y + height / 2})`);
+            text.textContent = label;
+            svg.appendChild(text);
+        }
+
+        function renderHeader(svg, x, y, width, text) {
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('width', width);
+            rect.setAttribute('height', 32);
+            rect.setAttribute('rx', 4);
+            rect.setAttribute('fill', 'rgb(255, 193, 37)');
+            svg.appendChild(rect);
+
+            const textEl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            textEl.setAttribute('x', x + width / 2);
+            textEl.setAttribute('y', y + 21);  // Centers text vertically in 32px header
+            textEl.setAttribute('font-family', 'Arial, sans-serif');
+            textEl.setAttribute('font-size', '14');
+            textEl.setAttribute('fill', '#333');
+            textEl.setAttribute('text-anchor', 'middle');
+            textEl.textContent = text;
+            svg.appendChild(textEl);
+        }
+
+        // Straight vertical arrow
+        function renderArrowDown(svg, x, y1, y2) {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', x);
+            line.setAttribute('y1', y1);
+            line.setAttribute('x2', x);
+            line.setAttribute('y2', y2);
+            line.setAttribute('stroke', '#333');
+            line.setAttribute('stroke-width', '1.5');
+            line.setAttribute('marker-end', 'url(#arrowhead)');
+            svg.appendChild(line);
+        }
+
+        // Straight horizontal arrow
+        function renderArrowRight(svg, x1, x2, y) {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', x1);
+            line.setAttribute('y1', y);
+            line.setAttribute('x2', x2);
+            line.setAttribute('y2', y);
+            line.setAttribute('stroke', '#333');
+            line.setAttribute('stroke-width', '1.5');
+            line.setAttribute('marker-end', 'url(#arrowhead)');
+            svg.appendChild(line);
+        }
+
+        function updateDiagram() {
+            const svg = document.getElementById('prisma-svg');
+            svg.innerHTML = '';
+
+            // Arrow marker
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            defs.innerHTML = `
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                </marker>
+            `;
+            svg.appendChild(defs);
+
+            // Get values
+            const databases = document.getElementById('input-databases').value.split('\n').filter(d => d.trim());
+            const removedReason = document.getElementById('input-removed-reason').value;
+            const removed = document.getElementById('input-removed').value;
+            const screened = document.getElementById('input-screened').value;
+            const excludedReason = document.getElementById('input-excluded-reason').value;
+            const excluded = document.getElementById('input-excluded').value;
+            const sought = document.getElementById('input-sought').value;
+            const retrievalReason = document.getElementById('input-retrieval-reason').value;
+            const retrievalExcluded = document.getElementById('input-retrieval-excluded').value;
+            const assessed = document.getElementById('input-assessed').value;
+            const notRetrievedReasons = document.getElementById('input-not-retrieved-reasons').value.split('\n').filter(r => r.trim());
+            const included = document.getElementById('input-included').value;
+
+            // Layout constants
+            const blueLabelsX = 15;
+            const contentStartX = 50;
+            const leftColX = 180;
+            const leftBoxMaxWidth = 190;
+            const rightBoxMaxWidth = 210;
+            const arrowGap = 15;
+            const arrowGapHorizontal = 30;
+            const rowGap = 15; // vertical gap between rows
+
+            // === PRE-COMPUTE ALL BOXES ===
+
+            // Row 1: Identification
+            const idLines = ['Records identified from:', 'Databases'];
+            databases.forEach(db => idLines.push(db));
+            const idBox = createBox(idLines, 12, 12, 160);
+
+            const removedLines = wrapText(removedReason, rightBoxMaxWidth - 10, 12);
+            removedLines.push(`(n = ${removed})`);
+            const removedBox = createBox(removedLines, 12, 12, 145);
+
+            // Row 2: Screening
+            const scrLines = ['Records screened', `(n = ${Number(screened).toLocaleString()})`];
+            const scrBox = createBox(scrLines, 12, 12, 150);
+
+            const exclLines = wrapText(excludedReason, rightBoxMaxWidth - 10, 12);
+            exclLines.push(`(n = ${Number(excluded).toLocaleString()})`);
+            const exclBox = createBox(exclLines, 12, 12, 145);
+
+            // Row 3: Retrieval
+            const soughtLines = ['Reports sought for retrieval', `(n = ${sought})`];
+            const soughtBox = createBox(soughtLines, 12, 12, 150);
+
+            const retExclLines = wrapText(retrievalReason, rightBoxMaxWidth - 10, 12);
+            retExclLines.push(`(n = ${retrievalExcluded})`);
+            const retExclBox = createBox(retExclLines, 12, 12, 145);
+
+            // Row 4: Eligibility
+            const assLines = ['Reports assessed for', `eligibility (n = ${assessed})`];
+            const assBox = createBox(assLines, 12, 12, 150);
+
+            const notRetLines = ['Reports not retrieved with', 'reasons'];
+            notRetrievedReasons.forEach(r => notRetLines.push(r));
+            const notRetBox = createBox(notRetLines, 12, 12, 145);
+
+            // Row 5: Included (left only)
+            const incLines = ['Studies included in review', `(n = ${included})`];
+            const incBox = createBox(incLines, 12, 12, 160);
+
+            // === NORMALIZE BOX WIDTHS ===
+            const maxLeftBoxWidth = Math.max(idBox.width, scrBox.width, soughtBox.width, assBox.width, incBox.width);
+            const maxRightBoxWidth = Math.max(removedBox.width, exclBox.width, retExclBox.width, notRetBox.width);
+
+            // Make all left-column boxes the same width
+            [idBox, scrBox, soughtBox, assBox, incBox].forEach(box => { box.width = maxLeftBoxWidth; });
+            // Make all right-column boxes the same width
+            [removedBox, exclBox, retExclBox, notRetBox].forEach(box => { box.width = maxRightBoxWidth; });
+            const rightColX = Math.max(
+                leftColX + maxLeftBoxWidth / 2 + arrowGapHorizontal + maxRightBoxWidth / 2,
+                leftColX + 200 // minimum separation
+            );
+
+            // Header width spans both columns
+            const headerWidth = Math.max(490, (rightColX + maxRightBoxWidth / 2) - contentStartX + 10);
+            renderHeader(svg, contentStartX, 5, headerWidth, 'Identification of studies via databases and registers');
+
+            // === RENDER ROWS WITH PROPER ALIGNMENT ===
+            let maxRightEdge = 0;
+
+            // Row 1: Identification
+            const row1Height = Math.max(idBox.height, removedBox.height);
+            const row1CenterY = 50 + row1Height / 2;
+            const idRendered = renderBox(svg, idBox, leftColX, row1CenterY);
+            const removedRendered = renderBox(svg, removedBox, rightColX, row1CenterY);
+            renderArrowRight(svg, idRendered.right, removedRendered.left, row1CenterY);
+            maxRightEdge = Math.max(maxRightEdge, removedRendered.right);
+
+            const idSectionTop = 48;
+            const row1Bottom = row1CenterY + row1Height / 2;
+
+            // Row 2: Screening
+            const row2Height = Math.max(scrBox.height, exclBox.height);
+            const row2CenterY = row1Bottom + arrowGap + 35 + row2Height / 2;
+            const scrRendered = renderBox(svg, scrBox, leftColX, row2CenterY);
+            const exclRendered = renderBox(svg, exclBox, rightColX, row2CenterY);
+            renderArrowDown(svg, leftColX, idRendered.bottom, scrRendered.top);
+            renderArrowRight(svg, scrRendered.right, exclRendered.left, row2CenterY);
+            maxRightEdge = Math.max(maxRightEdge, exclRendered.right);
+
+            const row2Bottom = row2CenterY + row2Height / 2;
+
+            // Row 3: Retrieval
+            const row3Height = Math.max(soughtBox.height, retExclBox.height);
+            const row3CenterY = row2Bottom + arrowGap + rowGap + row3Height / 2;
+            const soughtRendered = renderBox(svg, soughtBox, leftColX, row3CenterY);
+            const retExclRendered = renderBox(svg, retExclBox, rightColX, row3CenterY);
+            renderArrowDown(svg, leftColX, scrRendered.bottom, soughtRendered.top);
+            renderArrowRight(svg, soughtRendered.right, retExclRendered.left, row3CenterY);
+            maxRightEdge = Math.max(maxRightEdge, retExclRendered.right);
+
+            const row3Bottom = row3CenterY + row3Height / 2;
+
+            // Row 4: Eligibility
+            const row4Height = Math.max(assBox.height, notRetBox.height);
+            const row4CenterY = row3Bottom + arrowGap + rowGap + row4Height / 2;
+            const assRendered = renderBox(svg, assBox, leftColX, row4CenterY);
+            const notRetRendered = renderBox(svg, notRetBox, rightColX, row4CenterY);
+            renderArrowDown(svg, leftColX, soughtRendered.bottom, assRendered.top);
+            renderArrowRight(svg, assRendered.right, notRetRendered.left, row4CenterY);
+            maxRightEdge = Math.max(maxRightEdge, notRetRendered.right);
+
+            const row4Bottom = row4CenterY + row4Height / 2;
+
+            const scrSectionTop = scrRendered.top - arrowGap;
+            const scrSectionBottom = row4Bottom;
+
+            // Row 5: Included
+            const incCenterY = row4Bottom + arrowGap + 35 + incBox.height / 2;
+            const incRendered = renderBox(svg, incBox, leftColX, incCenterY);
+            renderArrowDown(svg, leftColX, assRendered.bottom, incRendered.top);
+
+            const incSectionTop = incRendered.top - arrowGap - 10;
+            const incSectionBottom = incRendered.bottom;
+
+            // Phase labels - calculate minimum heights and position with gaps
+            const idSectionBottom = row1Bottom;
+            const idLabelMinHeight = 'Identification'.length * 7 + 20;
+            const idLabelHeight = Math.max(idSectionBottom - idSectionTop, idLabelMinHeight);
+
+            const scrLabelMinHeight = 'Screening'.length * 7 + 20;
+            const scrLabelStart = idSectionTop + idLabelHeight + 10;
+            const scrLabelHeight = Math.max(scrSectionBottom - scrLabelStart, scrLabelMinHeight);
+
+            const incLabelMinHeight = 'Included'.length * 7 + 20;
+            const incLabelStart = scrLabelStart + scrLabelHeight + 10;
+            const incLabelHeight = Math.max(incSectionBottom - incLabelStart + 20, incLabelMinHeight);
+
+            renderPhaseLabel(svg, blueLabelsX, idSectionTop, idLabelHeight, 'Identification');
+            renderPhaseLabel(svg, blueLabelsX, scrLabelStart, scrLabelHeight, 'Screening');
+            renderPhaseLabel(svg, blueLabelsX, incLabelStart, incLabelHeight, 'Included');
+
+            // Update viewBox with dynamic width
+            const viewBoxWidth = Math.max(600, maxRightEdge + 30);
+            svg.setAttribute('viewBox', `0 0 ${viewBoxWidth} ${incSectionBottom + 30}`);
+        }
+
+        updateDiagram();
+    </script>
+</body>
+</html>
