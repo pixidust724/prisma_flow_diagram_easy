@@ -410,39 +410,39 @@
             // Row 1: Identification
             const idLines = ['Records identified from:', 'Databases'];
             databases.forEach(db => idLines.push(db));
-            const idBox = createBox(idLines, 12, 12, 160);
+            const idBox = createBox(idLines, 11, 12, 160);
 
             const removedLines = wrapText(removedReason, rightBoxMaxWidth - 10, 12);
             removedLines.push(`(n = ${removed})`);
-            const removedBox = createBox(removedLines, 12, 12, 145);
+            const removedBox = createBox(removedLines, 11, 12, 145);
 
             // Row 2: Screening
             const scrLines = ['Records screened', `(n = ${Number(screened).toLocaleString()})`];
-            const scrBox = createBox(scrLines, 12, 12, 150);
+            const scrBox = createBox(scrLines, 11, 12, 150);
 
-            const exclLines = wrapText(excludedReason, rightBoxMaxWidth - 10, 12);
+            const exclLines = wrapText(excludedReason, 400, 11);
             exclLines.push(`(n = ${Number(excluded).toLocaleString()})`);
-            const exclBox = createBox(exclLines, 12, 12, 145);
+            const exclBox = createBox(exclLines, 11, 12, 145);
 
             // Row 3: Retrieval
             const soughtLines = ['Reports sought for retrieval', `(n = ${sought})`];
-            const soughtBox = createBox(soughtLines, 12, 12, 150);
+            const soughtBox = createBox(soughtLines, 11, 12, 150);
 
             const retExclLines = wrapText(retrievalReason, rightBoxMaxWidth - 10, 12);
             retExclLines.push(`(n = ${retrievalExcluded})`);
-            const retExclBox = createBox(retExclLines, 12, 12, 145);
+            const retExclBox = createBox(retExclLines, 11, 12, 145);
 
             // Row 4: Eligibility
-            const assLines = ['Reports assessed for', `eligibility (n = ${assessed})`];
-            const assBox = createBox(assLines, 12, 12, 150);
+            const assLines = ['Reports assessed for eligibility', `(n = ${assessed})`];
+            const assBox = createBox(assLines, 11, 12, 150);
 
-            const notRetLines = ['Reports not retrieved with', 'reasons'];
+            const notRetLines = ['Reports not retrieved with reasons:'];
             notRetrievedReasons.forEach(r => notRetLines.push(r));
-            const notRetBox = createBox(notRetLines, 12, 12, 145);
+            const notRetBox = createBox(notRetLines, 11, 12, 145);
 
             // Row 5: Included (left only)
             const incLines = ['Studies included in review', `(n = ${included})`];
-            const incBox = createBox(incLines, 12, 12, 160);
+            const incBox = createBox(incLines, 11, 12, 160);
 
             // === NORMALIZE BOX WIDTHS ===
             const maxLeftBoxWidth = Math.max(idBox.width, scrBox.width, soughtBox.width, assBox.width, incBox.width);
