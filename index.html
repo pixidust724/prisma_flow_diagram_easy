@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PRISMA 2026 Flow Diagram</title>
     <style>
+        :root {
+            --fs: 14px;
+        }
         * {
             box-sizing: border-box;
             margin: 0;
@@ -23,14 +26,14 @@
             text-align: center;
             color: #333;
             margin-bottom: 20px;
-            font-size: 22px;
+            font-size: calc(var(--fs) * 1.57);
             font-weight: normal;
         }
         h3 {
             text-align: center;
             color: #333;
             margin-bottom: 10px;
-            font-size: 14px;
+            font-size: var(--fs);
             font-weight: normal;
         }
         .main-content {
@@ -45,7 +48,7 @@
             background: white;
             border: 1px solid #ccc;
             padding: 20px;
-            font-size: 13px;
+            font-size: var(--fs);
         }
         .form-section {
             margin-bottom: 18px;
@@ -57,7 +60,7 @@
             margin-bottom: 0;
         }
         .form-section h3 {
-            font-size: 12px;
+            font-size: var(--fs);
             color: #4a7ba7;
             margin-bottom: 10px;
             font-weight: bold;
@@ -68,18 +71,22 @@
         }
         .form-group label {
             display: block;
-            font-size: 11px;
+            font-size: var(--fs);
             color: #666;
             margin-bottom: 3px;
         }
-        .form-group input, .form-group textarea {
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group textarea {
             width: 100%;
             padding: 6px 8px;
             border: 1px solid #ccc;
-            font-size: 12px;
+            font-size: var(--fs);
             font-family: inherit;
         }
-        .form-group input:focus, .form-group textarea:focus {
+        .form-group input[type="text"]:focus,
+        .form-group input[type="number"]:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: #4a7ba7;
         }
@@ -93,7 +100,7 @@
             background: #4a7ba7;
             color: white;
             border: none;
-            font-size: 13px;
+            font-size: var(--fs);
             cursor: pointer;
             margin-top: 10px;
         }
@@ -114,6 +121,22 @@
             width: 100%;
             height: auto;
             display: block;
+        }
+
+        .font-size-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .font-size-control input[type="range"] {
+            flex: 1;
+            cursor: pointer;
+        }
+        .font-size-control span {
+            font-size: var(--fs);
+            color: #333;
+            min-width: 32px;
+            text-align: right;
         }
 
         @media print {
@@ -201,6 +224,17 @@
                     </div>
                 </div>
 
+                <div class="form-section">
+                    <h3>Display</h3>
+                    <div class="form-group">
+                        <label>Font size</label>
+                        <div class="font-size-control">
+                            <input type="range" id="font-size-slider" min="10" max="20" value="14" oninput="updateFontSize(this.value)">
+                            <span id="font-size-display">14px</span>
+                        </div>
+                    </div>
+                </div>
+
                 <button class="export-btn" onclick="window.print()">Export as PDF</button>
             </div>
 
@@ -212,6 +246,16 @@
     </div>
 
     <script>
+        let svgFontSize = 11; // tracks diagram box font size (UI size - 3)
+
+        function updateFontSize(size) {
+            size = parseInt(size);
+            document.getElementById('font-size-display').textContent = size + 'px';
+            document.documentElement.style.setProperty('--fs', size + 'px');
+            svgFontSize = Math.max(7, size - 3);
+            updateDiagram();
+        }
+
         function wrapText(text, maxWidth, fontSize) {
             const words = text.split(' ');
             const lines = [];
@@ -312,7 +356,7 @@
             text.setAttribute('x', x + 11);
             text.setAttribute('y', y + height / 2);
             text.setAttribute('font-family', 'Arial, sans-serif');
-            text.setAttribute('font-size', '13');
+            text.setAttribute('font-size', svgFontSize + 3);
             text.setAttribute('fill', 'black');
             text.setAttribute('text-anchor', 'middle');
             text.setAttribute('dominant-baseline', 'middle');
@@ -335,7 +379,7 @@
             textEl.setAttribute('x', x + width / 2);
             textEl.setAttribute('y', y + 21);  // Centers text vertically in 32px header
             textEl.setAttribute('font-family', 'Arial, sans-serif');
-            textEl.setAttribute('font-size', '14');
+            textEl.setAttribute('font-size', svgFontSize + 3);
             textEl.setAttribute('fill', '#333');
             textEl.setAttribute('text-anchor', 'middle');
             textEl.textContent = text;
@@ -410,39 +454,39 @@
             // Row 1: Identification
             const idLines = ['Records identified from:', 'Databases'];
             databases.forEach(db => idLines.push(db));
-            const idBox = createBox(idLines, 11, 12, 160);
+            const idBox = createBox(idLines, svgFontSize, 12, 160);
 
-            const removedLines = wrapText(removedReason, rightBoxMaxWidth - 10, 12);
+            const removedLines = wrapText(removedReason, rightBoxMaxWidth - 10, svgFontSize);
             removedLines.push(`(n = ${removed})`);
-            const removedBox = createBox(removedLines, 11, 12, 145);
+            const removedBox = createBox(removedLines, svgFontSize, 12, 145);
 
             // Row 2: Screening
             const scrLines = ['Records screened', `(n = ${Number(screened).toLocaleString()})`];
-            const scrBox = createBox(scrLines, 11, 12, 150);
+            const scrBox = createBox(scrLines, svgFontSize, 12, 150);
 
-            const exclLines = wrapText(excludedReason, 400, 11);
+            const exclLines = wrapText(excludedReason, 400, svgFontSize);
             exclLines.push(`(n = ${Number(excluded).toLocaleString()})`);
-            const exclBox = createBox(exclLines, 11, 12, 145);
+            const exclBox = createBox(exclLines, svgFontSize, 12, 145);
 
             // Row 3: Retrieval
             const soughtLines = ['Reports sought for retrieval', `(n = ${sought})`];
-            const soughtBox = createBox(soughtLines, 11, 12, 150);
+            const soughtBox = createBox(soughtLines, svgFontSize, 12, 150);
 
-            const retExclLines = wrapText(retrievalReason, rightBoxMaxWidth - 10, 12);
+            const retExclLines = wrapText(retrievalReason, rightBoxMaxWidth - 10, svgFontSize);
             retExclLines.push(`(n = ${retrievalExcluded})`);
-            const retExclBox = createBox(retExclLines, 11, 12, 145);
+            const retExclBox = createBox(retExclLines, svgFontSize, 12, 145);
 
             // Row 4: Eligibility
             const assLines = ['Reports assessed for eligibility', `(n = ${assessed})`];
-            const assBox = createBox(assLines, 11, 12, 150);
+            const assBox = createBox(assLines, svgFontSize, 12, 150);
 
             const notRetLines = ['Reports not retrieved with reasons:'];
             notRetrievedReasons.forEach(r => notRetLines.push(r));
-            const notRetBox = createBox(notRetLines, 11, 12, 145);
+            const notRetBox = createBox(notRetLines, svgFontSize, 12, 145);
 
             // Row 5: Included (left only)
             const incLines = ['Studies included in review', `(n = ${included})`];
-            const incBox = createBox(incLines, 11, 12, 160);
+            const incBox = createBox(incLines, svgFontSize, 12, 160);
 
             // === NORMALIZE BOX WIDTHS ===
             const maxLeftBoxWidth = Math.max(idBox.width, scrBox.width, soughtBox.width, assBox.width, incBox.width);
